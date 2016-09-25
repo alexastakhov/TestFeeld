@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
     /// <summary>
-    /// Логика взаимодействия для InfoForm.xaml
+    /// Логика взаимодействия для EditAgentConfigForm.xaml
     /// </summary>
-    public partial class InfoForm : Window
+    public partial class EditAgentConfigForm : Window
     {
-        public InfoForm()
+        public EditAgentConfigForm()
         {
             InitializeComponent();
         }

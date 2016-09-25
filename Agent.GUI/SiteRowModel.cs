@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
     class SiteRowModel
     {

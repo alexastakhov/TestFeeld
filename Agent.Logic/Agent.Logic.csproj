@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7669F71-6B7D-4D3E-B522-0CCE4BB4ACCC}</ProjectGuid>
+    <ProjectGuid>{C7E79610-5EB0-460B-AD95-8F9EA6042DF2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlfaBank.AlfaRobot.ControlCenter.Agent.Configuration</RootNamespace>
-    <AssemblyName>AlfaBank.AlfaRobot.ControlCenter.Agent</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>AlfaBank.AlfaRobot.ControlCenter.Agent.Logic</RootNamespace>
+    <AssemblyName>AlfaBank.AlfaRobot.ControlCenter.Agent.Logic</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,9 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgentConfiguration.cs" />
-    <Compile Include="SiteConfiguration.cs" />
+    <Compile Include="AgentModel.cs" />
+    <Compile Include="IAgentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5a890235-571b-46f0-bca8-dbc7438d2e19}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Configuration\Configuration.csproj">
+      <Project>{bdc4b6ff-149a-49c5-b9c6-001ebf0a75f2}</Project>
+      <Name>Configuration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

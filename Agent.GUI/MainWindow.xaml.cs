@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AlfaBank.AlfaRobot.ControlCenter.Configuration;
-using System.Collections.ObjectModel;
+using AlfaBank.AlfaRobot.ControlCenter.Common;
+using AlfaBank.AlfaRobot.ControlCenter.Agent.Logic;
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -24,22 +25,22 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
     {
         private System.Windows.Forms.NotifyIcon TrayIcon = null;
         private ContextMenu TrayMenu = null;
-        private WindowState fCurrentWindowState = WindowState.Normal;
+        private WindowState _fCurrentWindowState = WindowState.Normal;
 
         private bool CanCloseWindow = false;
 
         public WindowState CurrentWindowState
         {
-            get { return fCurrentWindowState; }
-            set { fCurrentWindowState = value; }
+            get { return _fCurrentWindowState; }
+            set { _fCurrentWindowState = value; }
         }
 
-        public ObservableCollection<SiteConfiguration> sites;
+        private AgentModel _model;
 
         /// <summary>
-        /// Конфигурация Агента.
+        /// Модель представления таблицы сайтов.
         /// </summary>
-        private AgentConfiguration agentConfiguration = new AgentConfiguration();
+        private ObservableCollection<SiteRowModel> SiteRows = new ObservableCollection<SiteRowModel>();
 
         /// <summary>
         /// Основной конструктор.
@@ -47,8 +48,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
         public MainWindow()
         {
             InitializeComponent();
-            //sites = agentConfiguration.Sites;
-            sitesDataGrid.ItemsSource = agentConfiguration.Sites;
+            sitesDataGrid.ItemsSource = SiteRows;
+
+            _model = new AgentModel();
         }
 
         /// <summary>
@@ -59,10 +61,10 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
         {
             bool result = false;
             if (TrayIcon == null)
-            { 
+            {
                 TrayIcon = new System.Windows.Forms.NotifyIcon();
-                TrayIcon.Icon = AlfaBank.AlfaRobot.ControlCenter.Agent.Properties.Resources.switch_tray_m; 
-                TrayIcon.Text = "AlfaRobot Control Agent."; 
+                TrayIcon.Icon = AlfaBank.AlfaRobot.ControlCenter.Agent.Gui.Properties.Resources.switch_tray_m;
+                TrayIcon.Text = "AlfaRobot Control Agent.";
                 TrayMenu = Resources["trayMenu"] as ContextMenu;
 
                 TrayIcon.Click += delegate(object sender, EventArgs e)
@@ -74,13 +76,13 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
                     else
                     {
                         TrayMenu.IsOpen = true;
-                        Activate(); 
+                        Activate();
                     }
                 };
                 result = true;
             }
             else
-            { 
+            {
                 result = true;
             }
             TrayIcon.Visible = true;
@@ -89,13 +91,13 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
 
         private void ShowHideMainWindow(object sender, RoutedEventArgs e)
         {
-            TrayMenu.IsOpen = false; 
+            TrayMenu.IsOpen = false;
             if (IsVisible)
             {
                 Hide();
             }
             else
-            { 
+            {
                 Show();
                 WindowState = CurrentWindowState;
                 Activate();
@@ -120,7 +122,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
                 e.Cancel = true;
                 ShowHideMainWindow(this, new RoutedEventArgs());
             }
-            else 
+            else
             {
                 TrayIcon.Visible = false;
             }
@@ -143,25 +145,28 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
             addSiteForm.Left = this.Left + ((this.Width - addSiteForm.Width) / 2);
             addSiteForm.Top = this.Top + ((this.Height - addSiteForm.Height) / 2);
 
-            SiteConfiguration siteConfiguration = addSiteForm.ShowDialogWithResult();
+            SiteDescriptor siteDescriptor = addSiteForm.ShowDialogWithResult();
 
-            if (siteConfiguration != null)
+            if (siteDescriptor != null)
             {
-                if (agentConfiguration.Sites.Where(s => (s.SiteName == siteConfiguration.SiteName)).Count() == 0)
-                {
-                    agentConfiguration.Sites.Add(siteConfiguration);
-                    //sitesDataGrid.ItemsSource = null;
-                    //sitesDataGrid.ItemsSource = agentConfiguration.Sites;
-                }
-                else
+                if (!_model.AddSiteToConfig(siteDescriptor))
                 {
                     MessageBox.Show(
                         this,
-                        string.Format("Sitename \"{0}\" already exists in the Agent configuration.",siteConfiguration.SiteName),
+                        string.Format("Sitename \"{0}\" already exists in the Agent configuration.", siteDescriptor.SiteName),
                         "Error",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
+            }
+            else 
+            {
+                MessageBox.Show(
+                        this,
+                        string.Format("Unexpexting Site addition error!"),
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
             }
         }
     }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Properties {
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Gui.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

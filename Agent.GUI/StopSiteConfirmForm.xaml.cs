@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
     /// <summary>
-    /// Логика взаимодействия для ViewLogForm.xaml
+    /// Логика взаимодействия для StopSiteConfirmForm.xaml
     /// </summary>
-    public partial class ViewLogForm : Window
+    public partial class StopSiteConfirmForm : Window
     {
-        public ViewLogForm()
+        public StopSiteConfirmForm()
         {
             InitializeComponent();
         }

@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Configuration="clr-namespace:AlfaBank.AlfaRobot.ControlCenter.Configuration;assembly=AlfaBank.AlfaRobot.ControlCenter.Configuration" x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.MainWindow"
+        xmlns:Configuration="clr-namespace:AlfaBank.AlfaRobot.ControlCenter.Configuration;assembly=AlfaBank.AlfaRobot.ControlCenter.Configuration" x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.GUI.MainWindow"
         Title="AlfaRobot Agent v.0.0.1a" Height="420" Width="743" ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" Closing="Window_Closing" 
         SourceInitialized="Window_SourceInitialized" Icon="Images/switch_xl.ico">

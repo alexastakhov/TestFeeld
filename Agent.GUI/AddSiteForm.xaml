@@ -1,4 +1,4 @@
-﻿<Window x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.AddSiteForm"
+﻿<Window x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.GUI.AddSiteForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Add New Site" Height="226" Width="485" ShowInTaskbar="False" 

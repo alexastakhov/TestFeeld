@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,16 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AlfaBank.AlfaRobot.ControlCenter.Configuration;
+using AlfaBank.AlfaRobot.ControlCenter.Common;
 
-namespace AlfaBank.AlfaRobot.ControlCenter.Agent
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
     /// <summary>
     /// Логика взаимодействия для AddSiteForm.xaml
     /// </summary>
     public partial class AddSiteForm : Window
     {
-        private SiteConfiguration siteConfiguration;
+        private SiteDescriptor _siteDescriptor;
 
         public AddSiteForm()
         {
@@ -29,7 +29,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            siteConfiguration = null;
+            _siteDescriptor = null;
             this.Close();
         }
 
@@ -69,7 +69,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
 
             if (isHide)
             {
-                siteConfiguration = new SiteConfiguration()
+                _siteDescriptor = new SiteDescriptor()
                 {
                     SiteName = siteNameText.Text,
                     ExecutableFilePath = filePathText.Text,
@@ -80,10 +80,10 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent
             }
         }
 
-        public SiteConfiguration ShowDialogWithResult()
+        public SiteDescriptor ShowDialogWithResult()
         {
             this.ShowDialog();
-            return siteConfiguration;
+            return _siteDescriptor;
         }
 
         private void SetLabelToError(Label label)

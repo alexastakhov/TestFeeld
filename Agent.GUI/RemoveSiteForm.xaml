@@ -1,7 +1,7 @@
-﻿<Window x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.InfoForm"
+﻿<Window x:Class="AlfaBank.AlfaRobot.ControlCenter.Agent.GUI.RemoveSiteForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="InfoForm" Height="300" Width="300">
+        Title="RemoveSiteForm" Height="300" Width="300">
     <Grid>
         
     </Grid>
