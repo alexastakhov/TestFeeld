@@ -16,6 +16,16 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         event EventHandler<SiteEventArgs> SiteUpdated;
 
         /// <summary>
+        /// Событие добавления сайта.
+        /// </summary>
+        event EventHandler<SiteEventArgs> SiteAdded;
+
+        /// <summary>
+        /// Событие удаления сайта.
+        /// </summary>
+        event EventHandler<SiteEventArgs> SiteRemoved;
+
+        /// <summary>
         /// Конфигурация агента.
         /// </summary>
         AgentConfiguration Configuration { get; }
@@ -31,5 +41,12 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
         bool AddSiteToConfig(SiteDescriptor descriptor);
+
+        /// <summary>
+        /// Удалить сайт из конфигурации.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <returns>Результат выполнения.</returns>
+        bool RemoveSiteFromConfig(string siteName);
     }
 }

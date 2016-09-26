@@ -16,6 +16,16 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         public event EventHandler<SiteEventArgs> SiteUpdated = delegate { };
 
         /// <summary>
+        /// Событие добавления сайта.
+        /// </summary>
+        public event EventHandler<SiteEventArgs> SiteAdded = delegate { };
+
+        /// <summary>
+        /// Событие удаления сайта.
+        /// </summary>
+        public event EventHandler<SiteEventArgs> SiteRemoved = delegate { };
+
+        /// <summary>
         /// Конфигурация Агента.
         /// </summary>
         public AgentConfiguration Configuration
@@ -49,11 +59,47 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
             _configuration = new AgentConfiguration();
         }
 
+        /// <summary>
+        /// Добавить сайт в конфигурацию.
+        /// </summary>
+        /// <param name="descriptor">Дескриптор сайта.</param>
+        /// <returns>Результат выполнения.</returns>
         public bool AddSiteToConfig(SiteDescriptor descriptor)
         {
             if (_configuration.AddNewSite(descriptor.SiteName, descriptor.ExecutableFilePath, descriptor.StartArguments))
             {
-                _sites.Add(new SiteInstance(descriptor.SiteName, descriptor.ExecutableFilePath));
+                ISite siteInstance = new SiteInstance(descriptor.SiteName, descriptor.ExecutableFilePath);
+
+                _sites.Add(siteInstance);
+
+                if (SiteAdded != null)
+                {
+                    SiteAdded(this, new SiteEventArgs(siteInstance));
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Удалить сайт из конфигурации.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <returns>Результат выполнения.</returns>
+        public bool RemoveSiteFromConfig(string siteName)
+        {
+            if (_configuration.RemoveSite(siteName))
+            {
+                ISite siteInstance = Sites.First(s => s.SiteName == siteName);
+
+                _sites.Remove(siteInstance);
+
+                if (SiteRemoved != null)
+                {
+                    SiteRemoved(this, new SiteEventArgs(siteInstance));
+                }
 
                 return true;
             }

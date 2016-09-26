@@ -75,5 +75,16 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
             }
             return false;
         }
+
+        public bool RemoveSite(string siteName)
+        {
+            if (_sites.Where(s => s.SiteName == siteName).Count() == 1)
+            {
+                _sites.Remove(_sites.First(s => s.SiteName == siteName));
+
+                return true;
+            }
+            return false;
+        }
     }
 }
