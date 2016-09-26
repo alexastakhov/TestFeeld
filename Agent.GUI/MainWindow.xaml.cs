@@ -23,10 +23,24 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Иконка в трее.
+        /// </summary>
         private System.Windows.Forms.NotifyIcon TrayIcon = null;
+
+        /// <summary>
+        /// Контекстное меню трея.
+        /// </summary>
         private ContextMenu TrayMenu = null;
+
+        /// <summary>
+        /// Состояние окна.
+        /// </summary>
         private WindowState _fCurrentWindowState = WindowState.Normal;
 
+        /// <summary>
+        /// Флаг закрытия окна.
+        /// </summary>
         private bool CanCloseWindow = false;
 
         public WindowState CurrentWindowState
@@ -35,6 +49,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             set { _fCurrentWindowState = value; }
         }
 
+        /// <summary>
+        /// Модель Агента.
+        /// </summary>
         private AgentModel _model;
 
         /// <summary>
@@ -51,6 +68,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             sitesDataGrid.ItemsSource = SiteRows;
 
             _model = new AgentModel();
+            _model.SiteUpdated += model_UpdateSite;
         }
 
         /// <summary>
@@ -89,6 +107,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowHideMainWindow(object sender, RoutedEventArgs e)
         {
             TrayMenu.IsOpen = false;
@@ -104,17 +127,32 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void showWinContextMenuItemClick(object sender, RoutedEventArgs e)
         {
             Show();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void stopContextMenuItemClick(object sender, RoutedEventArgs e)
         {
             CanCloseWindow = true;
             Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!CanCloseWindow)
@@ -128,6 +166,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             CreateTrayIcon();
@@ -168,6 +211,16 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
             }
+        }
+
+        /// <summary>
+        /// Обновление сайта.
+        /// </summary>
+        /// <param name="sender">Вызывающий объект.</param>
+        /// <param name="arg">Сайт с изменениями.</param>
+        private void model_UpdateSite(object sender, SiteEventArgs arg)
+        {
+
         }
     }
 }
