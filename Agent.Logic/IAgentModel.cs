@@ -48,5 +48,12 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// <param name="siteName">Имя сайта.</param>
         /// <returns>Результат выполнения.</returns>
         bool RemoveSiteFromConfig(string siteName);
+
+        /// <summary>
+        /// Обновить сайт в конфигурации.
+        /// </summary>
+        /// <param name="descriptor">Дескриптор сайта.</param>
+        /// <returns>Результат выполнения.</returns>
+        bool UpdateSiteConfig(SiteDescriptor descriptor);
     }
 }

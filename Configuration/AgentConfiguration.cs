@@ -9,6 +9,9 @@ using System.Runtime.Serialization;
 
 namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
 {
+    /// <summary>
+    /// Класс конфигурации приложения Агента.
+    /// </summary>
     [DataContract]
     public class AgentConfiguration
     {
@@ -59,6 +62,13 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
             _sites = new List<SiteConfiguration>();
         }
 
+        /// <summary>
+        /// Добавление сайта в конфигурацию.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <param name="filePath">Путь к файлу.</param>
+        /// <param name="args">Аргументы запуска.</param>
+        /// <returns>Результат выполнения.</returns>
         public bool AddNewSite(string siteName, string filePath, List<string> args)
         {
             if (_sites.Where(s => s.SiteName == siteName).Count() == 0)
@@ -76,6 +86,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
             return false;
         }
 
+        /// <summary>
+        /// Удаление сайта из конфигурации.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <returns>Результат выполнения.</returns>
         public bool RemoveSite(string siteName)
         {
             if (_sites.Where(s => s.SiteName == siteName).Count() == 1)
@@ -84,6 +99,28 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
 
                 return true;
             }
+            return false;
+        }
+
+        /// <summary>
+        /// Обновление конфигурации сайта.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <param name="filePath">Путь к файлу.</param>
+        /// <param name="args">Аргументы запуска.</param>
+        /// <returns>Результат выполнения.</returns>
+        public bool UpdateSite(string siteName, string filePath, List<string> args)
+        {
+            if (_sites.Where(s => s.SiteName == siteName).Count() == 1)
+            {
+                SiteConfiguration site = _sites.First(s => s.SiteName == siteName);
+
+                site.ExecutableFilePath = filePath;
+                site.StartArguments = args;
+
+                return true;
+            }
+
             return false;
         }
     }

@@ -19,9 +19,9 @@ namespace Agent.Logic.Tests
         /// Добавляем сайт в конфигурацию.
         /// </summary>
         [TestMethod]
-        public void AgentModelAddNewSiteToConfig()
+        public void AgentModelAddNewSiteToConfigTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
 
             bool result = model.AddSiteToConfig(
                 new SiteDescriptor()
@@ -48,9 +48,9 @@ namespace Agent.Logic.Tests
         /// Добавляем сайт с уже существующим именем в конфигурацию.
         /// </summary>
         [TestMethod]
-        public void AgentModelAddDuplicateSiteToConfig()
+        public void AgentModelAddDuplicateSiteToConfigTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
 
             bool result1 = model.AddSiteToConfig(
                 new SiteDescriptor()
@@ -88,9 +88,9 @@ namespace Agent.Logic.Tests
         /// Удаляем сайт из конфигурации.
         /// </summary>
         [TestMethod]
-        public void AgentModelRemoveSiteFromConfig()
+        public void AgentModelRemoveSiteFromConfigTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
             string siteName = "testSite";
 
             model.AddSiteToConfig(
@@ -112,9 +112,9 @@ namespace Agent.Logic.Tests
         ///  Удаляем несуществующий сайт из конфигурации.
         /// </summary>
         [TestMethod]
-        public void AgentModelRemoveUnexistingSiteFromConfig()
+        public void AgentModelRemoveUnexistingSiteFromConfigTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
 
             model.AddSiteToConfig(
                 new SiteDescriptor()
@@ -147,7 +147,7 @@ namespace Agent.Logic.Tests
         [TestMethod]
         public void AgentModelAddNewSiteToConfigEventTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
             _siteInstance = null;
 
             model.SiteAdded += AddSiteHandler;
@@ -174,7 +174,7 @@ namespace Agent.Logic.Tests
         [TestMethod]
         public void AgentModelAddDuplicateSiteToConfigEventTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
 
             model.SiteAdded += AddSiteHandler;
 
@@ -207,7 +207,7 @@ namespace Agent.Logic.Tests
         [TestMethod]
         public void AgentModelRemoveSiteToConfigEventTest()
         {
-            AgentModel model = new AgentModel();
+            IAgentModel model = new AgentModel();
             string siteName = "testSite";
             _siteInstance = null;
 
@@ -232,15 +232,12 @@ namespace Agent.Logic.Tests
         }
 
         /// <summary>
-        /// Проверяем событие обновления сайта.
+        /// Проверяем обновления сайта в конфигурации.
         /// </summary>
         [TestMethod]
-        public void AgentModelUpdateSiteToConfigEventTest()
+        public void AgentModelUpdateSiteToConfigTest()
         {
-            AgentModel model = new AgentModel();
-            _siteInstance = null;
-
-            model.SiteAdded += UpdateSiteHandler;
+            IAgentModel model = new AgentModel();
 
             model.AddSiteToConfig(
                 new SiteDescriptor()
@@ -250,11 +247,97 @@ namespace Agent.Logic.Tests
                     StartArguments = new List<string>() { "arg0", "arg1", "arg2" }
                 });
 
+            bool result = model.UpdateSiteConfig(
+                new SiteDescriptor()
+                {
+                    SiteName = "testSite",
+                    ExecutableFilePath = "pathTest",
+                    StartArguments = new List<string>() { "arg5", "arg6", "arg7", "arg8" }
+                });
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(1, model.Sites.Count);
+            Assert.AreEqual(1, model.Configuration.Sites.Count);
+
+            Assert.AreEqual("testSite", model.Configuration.Sites[0].SiteName);
+            Assert.AreEqual("pathTest", model.Configuration.Sites[0].ExecutableFilePath);
+            Assert.AreEqual("arg5", model.Configuration.Sites[0].StartArguments[0]);
+            Assert.AreEqual("arg6", model.Configuration.Sites[0].StartArguments[1]);
+            Assert.AreEqual("arg7", model.Configuration.Sites[0].StartArguments[2]);
+            Assert.AreEqual("arg8", model.Configuration.Sites[0].StartArguments[3]);
+
+            Assert.AreEqual("testSite", model.Sites[0].SiteName);
+            Assert.AreEqual("pathTest", model.Sites[0].FilePath);
+            Assert.AreEqual(SiteStatus.FILE_NOT_EXISTS, model.Sites[0].Status);
+        }
+
+        /// <summary>
+        /// Проверяем обновление несуществующего сайта в конфигурации.
+        /// </summary>
+        [TestMethod]
+        public void AgentModelUpdateUnexistingSiteToConfigAndEventTest()
+        {
+            IAgentModel model = new AgentModel();
+
+            model.SiteUpdated += UpdateSiteHandler;
+
+            model.AddSiteToConfig(
+                new SiteDescriptor()
+                {
+                    SiteName = "testSite",
+                    ExecutableFilePath = "testPath",
+                    StartArguments = new List<string>() { "arg0", "arg1", "arg2" }
+                });
+
+            _siteInstance = null;
+
+            bool result = model.UpdateSiteConfig(
+                new SiteDescriptor()
+                {
+                    SiteName = "testSite2",
+                    ExecutableFilePath = "pathTest",
+                    StartArguments = new List<string>() { "arg5", "arg6", "arg7", "arg8" }
+                });
+
+            Thread.Sleep(50);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(_siteInstance);
+        }
+
+        /// <summary>
+        /// Проверяем событие обновления сайта.
+        /// </summary>
+        [TestMethod]
+        public void AgentModelUpdateSiteToConfigEventTest()
+        {
+            IAgentModel model = new AgentModel();
+
+            model.SiteUpdated += UpdateSiteHandler;
+
+            model.AddSiteToConfig(
+                new SiteDescriptor()
+                {
+                    SiteName = "testSite",
+                    ExecutableFilePath = "testPath",
+                    StartArguments = new List<string>() { "arg0", "arg1", "arg2" }
+                });
+
+            _siteInstance = null;
+
+            model.UpdateSiteConfig(
+                new SiteDescriptor()
+                {
+                    SiteName = "testSite",
+                    ExecutableFilePath = "pathTest",
+                    StartArguments = new List<string>() { "arg5", "arg6", "arg7", "arg8" }
+                });
+
             Thread.Sleep(50);
 
             Assert.IsNotNull(_siteInstance);
             Assert.AreEqual("testSite", _siteInstance.SiteName);
-            Assert.AreEqual("testPath", _siteInstance.FilePath);
+            Assert.AreEqual("pathTest", _siteInstance.FilePath);
             Assert.AreEqual(SiteStatus.FILE_NOT_EXISTS, _siteInstance.Status);
         }
 
@@ -279,7 +362,7 @@ namespace Agent.Logic.Tests
         /// </summary>
         private void UpdateSiteHandler(object sender, SiteEventArgs eventArgs)
         {
-
+            _siteInstance = eventArgs.Site;
         }
     }
 }

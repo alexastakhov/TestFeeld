@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AlfaBank.AlfaRobot.ControlCenter.Common
 {
+    /// <summary>
+    /// Класс, представляющий собой дескриптор сайта.
+    /// </summary>
     public class SiteInstance : ISite
     {
         /// <summary>

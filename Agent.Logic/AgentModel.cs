@@ -106,5 +106,31 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
 
             return false;
         }
+
+        /// <summary>
+        /// Обновить сайт в конфигурации.
+        /// </summary>
+        /// <param name="descriptor">Дескриптор сайта.</param>
+        /// <returns>Результат выполнения.</returns>
+        public bool UpdateSiteConfig(SiteDescriptor descriptor)
+        {
+            if (_configuration.UpdateSite(descriptor.SiteName, descriptor.ExecutableFilePath, descriptor.StartArguments))
+            {
+                ISite siteInstance = Sites.First(s => s.SiteName == descriptor.SiteName);
+
+                _sites.Remove(siteInstance);
+                siteInstance = new SiteInstance(descriptor.SiteName, descriptor.ExecutableFilePath);
+                _sites.Add(siteInstance);
+
+                if (SiteUpdated != null)
+                {
+                    SiteUpdated(this, new SiteEventArgs(siteInstance));
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

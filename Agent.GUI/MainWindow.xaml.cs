@@ -52,7 +52,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         /// <summary>
         /// Модель Агента.
         /// </summary>
-        private AgentModel _model;
+        private IAgentModel _model;
 
         /// <summary>
         /// Модель представления таблицы сайтов.
