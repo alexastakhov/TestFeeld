@@ -26,7 +26,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Common
         /// <summary>
         /// Время запуска сайта.
         /// </summary>
-        DateTime StartTime { get; }
+        DateTime? StartTime { get; }
 
         /// <summary>
         /// Отмечаем сайт как запущенный.

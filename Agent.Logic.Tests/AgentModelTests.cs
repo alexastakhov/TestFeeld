@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AlfaBank.AlfaRobot.ControlCenter.Agent.Logic;
 using AlfaBank.AlfaRobot.ControlCenter.Common;
+using AlfaBank.AlfaRobot.ControlCenter.Configuration;
 using System.Threading;
 
 namespace Agent.Logic.Tests
@@ -16,6 +17,11 @@ namespace Agent.Logic.Tests
         private ISite _siteInstance;
 
         /// <summary>
+        /// Ожидание прихода события в миллисекундах.
+        /// </summary>
+        private const int WAIT_EVENT_MS = 20;
+
+        /// <summary>
         /// Добавляем сайт в конфигурацию.
         /// </summary>
         [TestMethod]
@@ -24,7 +30,7 @@ namespace Agent.Logic.Tests
             IAgentModel model = new AgentModel();
 
             bool result = model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -53,7 +59,7 @@ namespace Agent.Logic.Tests
             IAgentModel model = new AgentModel();
 
             bool result1 = model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -61,7 +67,7 @@ namespace Agent.Logic.Tests
                 });
 
             bool result2 = model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "nullPath",
@@ -94,7 +100,7 @@ namespace Agent.Logic.Tests
             string siteName = "testSite";
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = siteName,
                     ExecutableFilePath = "testPath",
@@ -117,7 +123,7 @@ namespace Agent.Logic.Tests
             IAgentModel model = new AgentModel();
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -153,14 +159,14 @@ namespace Agent.Logic.Tests
             model.SiteAdded += AddSiteHandler;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
                     StartArguments = new List<string>() { "arg0", "arg1", "arg2" }
                 });
 
-            Thread.Sleep(50);
+            Thread.Sleep(WAIT_EVENT_MS);
 
             Assert.IsNotNull(_siteInstance);
             Assert.AreEqual("testSite", _siteInstance.SiteName);
@@ -179,7 +185,7 @@ namespace Agent.Logic.Tests
             model.SiteAdded += AddSiteHandler;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -189,14 +195,14 @@ namespace Agent.Logic.Tests
             _siteInstance = null;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
                     StartArguments = new List<string>() { "arg0", "arg1", "arg2" }
                 });
 
-            Thread.Sleep(50);
+            Thread.Sleep(WAIT_EVENT_MS);
 
             Assert.IsNull(_siteInstance);
         }
@@ -214,7 +220,7 @@ namespace Agent.Logic.Tests
             model.SiteRemoved += RemoveSiteHandler;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = siteName,
                     ExecutableFilePath = "testPath",
@@ -223,7 +229,7 @@ namespace Agent.Logic.Tests
 
             model.RemoveSiteFromConfig(siteName);
 
-            Thread.Sleep(50);
+            Thread.Sleep(WAIT_EVENT_MS);
 
             Assert.IsNotNull(_siteInstance);
             Assert.AreEqual("testSite", _siteInstance.SiteName);
@@ -240,7 +246,7 @@ namespace Agent.Logic.Tests
             IAgentModel model = new AgentModel();
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -248,7 +254,7 @@ namespace Agent.Logic.Tests
                 });
 
             bool result = model.UpdateSiteConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "pathTest",
@@ -282,7 +288,7 @@ namespace Agent.Logic.Tests
             model.SiteUpdated += UpdateSiteHandler;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -292,14 +298,14 @@ namespace Agent.Logic.Tests
             _siteInstance = null;
 
             bool result = model.UpdateSiteConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite2",
                     ExecutableFilePath = "pathTest",
                     StartArguments = new List<string>() { "arg5", "arg6", "arg7", "arg8" }
                 });
 
-            Thread.Sleep(50);
+            Thread.Sleep(WAIT_EVENT_MS);
 
             Assert.IsFalse(result);
             Assert.IsNull(_siteInstance);
@@ -316,7 +322,7 @@ namespace Agent.Logic.Tests
             model.SiteUpdated += UpdateSiteHandler;
 
             model.AddSiteToConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "testPath",
@@ -326,14 +332,14 @@ namespace Agent.Logic.Tests
             _siteInstance = null;
 
             model.UpdateSiteConfig(
-                new SiteDescriptor()
+                new SiteConfiguration()
                 {
                     SiteName = "testSite",
                     ExecutableFilePath = "pathTest",
                     StartArguments = new List<string>() { "arg5", "arg6", "arg7", "arg8" }
                 });
 
-            Thread.Sleep(50);
+            Thread.Sleep(WAIT_EVENT_MS);
 
             Assert.IsNotNull(_siteInstance);
             Assert.AreEqual("testSite", _siteInstance.SiteName);

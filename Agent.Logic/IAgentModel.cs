@@ -40,7 +40,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// </summary>
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
-        bool AddSiteToConfig(SiteDescriptor descriptor);
+        bool AddSiteToConfig(SiteConfiguration siteConfig);
 
         /// <summary>
         /// Удалить сайт из конфигурации.
@@ -54,6 +54,6 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// </summary>
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
-        bool UpdateSiteConfig(SiteDescriptor descriptor);
+        bool UpdateSiteConfig(SiteConfiguration siteConfig);
     }
 }

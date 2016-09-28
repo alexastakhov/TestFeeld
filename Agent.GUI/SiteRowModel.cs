@@ -26,6 +26,6 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         /// <summary>
         /// Время запуска сайта.
         /// </summary>
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
     }
 }

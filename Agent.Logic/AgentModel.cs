@@ -64,11 +64,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// </summary>
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
-        public bool AddSiteToConfig(SiteDescriptor descriptor)
+        public bool AddSiteToConfig(SiteConfiguration siteConfig)
         {
-            if (_configuration.AddNewSite(descriptor.SiteName, descriptor.ExecutableFilePath, descriptor.StartArguments))
+            if (_configuration.AddNewSite(siteConfig))
             {
-                ISite siteInstance = new SiteInstance(descriptor.SiteName, descriptor.ExecutableFilePath);
+                ISite siteInstance = new SiteInstance(siteConfig.SiteName, siteConfig.ExecutableFilePath);
 
                 _sites.Add(siteInstance);
 
@@ -112,14 +112,14 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// </summary>
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
-        public bool UpdateSiteConfig(SiteDescriptor descriptor)
+        public bool UpdateSiteConfig(SiteConfiguration siteConfig)
         {
-            if (_configuration.UpdateSite(descriptor.SiteName, descriptor.ExecutableFilePath, descriptor.StartArguments))
+            if (_configuration.UpdateSite(siteConfig))
             {
-                ISite siteInstance = Sites.First(s => s.SiteName == descriptor.SiteName);
+                ISite siteInstance = Sites.First(s => s.SiteName == siteConfig.SiteName);
 
                 _sites.Remove(siteInstance);
-                siteInstance = new SiteInstance(descriptor.SiteName, descriptor.ExecutableFilePath);
+                siteInstance = new SiteInstance(siteConfig.SiteName, siteConfig.ExecutableFilePath);
                 _sites.Add(siteInstance);
 
                 if (SiteUpdated != null)

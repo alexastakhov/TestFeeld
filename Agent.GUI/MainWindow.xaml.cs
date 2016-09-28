@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AlfaBank.AlfaRobot.ControlCenter.Configuration;
 using AlfaBank.AlfaRobot.ControlCenter.Common;
 using AlfaBank.AlfaRobot.ControlCenter.Agent.Logic;
 
@@ -68,7 +69,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             sitesDataGrid.ItemsSource = SiteRows;
 
             _model = new AgentModel();
-            _model.SiteUpdated += model_UpdateSite;
+            _model.SiteUpdated += model_UpdateSiteHandler;
+            _model.SiteAdded += model_AddSiteHandler;
+            _model.SiteRemoved += model_RemoveSiteHandler;
         }
 
         /// <summary>
@@ -188,28 +191,52 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             addSiteForm.Left = this.Left + ((this.Width - addSiteForm.Width) / 2);
             addSiteForm.Top = this.Top + ((this.Height - addSiteForm.Height) / 2);
 
-            SiteDescriptor siteDescriptor = addSiteForm.ShowDialogWithResult();
+            SiteConfiguration siteConfig = addSiteForm.ShowDialogWithResult();
 
-            if (siteDescriptor != null)
+            if (siteConfig != null)
             {
-                if (!_model.AddSiteToConfig(siteDescriptor))
+                if (!_model.AddSiteToConfig(siteConfig))
                 {
                     MessageBox.Show(
                         this,
-                        string.Format("Sitename \"{0}\" already exists in the Agent configuration.", siteDescriptor.SiteName),
+                        string.Format("Sitename \"{0}\" already exists in the Agent configuration.", siteConfig.SiteName),
                         "Error",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
             }
-            else 
+        }
+
+        /// <summary>
+        /// Добавление сайта.
+        /// </summary>
+        /// <param name="sender">Вызывающий объект.</param>
+        /// <param name="arg">Добавляемый сайт.</param>
+        protected void model_AddSiteHandler(object sender, SiteEventArgs arg)
+        {
+            if (SiteRows.Count(r => r.SiteName == arg.Site.SiteName) == 0)
             {
-                MessageBox.Show(
-                        this,
-                        string.Format("Unexpexting Site addition error!"),
-                        "Error",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                SiteRows.Add(
+                    new SiteRowModel()
+                    {
+                        SiteName = arg.Site.SiteName,
+                        FilePath = arg.Site.FilePath,
+                        SiteStatus = StateToString(arg.Site.Status),
+                        StartTime = arg.Site.StartTime != null ? arg.Site.StartTime.ToString() : string.Empty
+                    });
+            }
+        }
+
+        /// <summary>
+        /// Удаление сайта.
+        /// </summary>
+        /// <param name="sender">Вызывающий объект.</param>
+        /// <param name="arg">Удаляемый сайт.</param>
+        protected void model_RemoveSiteHandler(object sender, SiteEventArgs arg)
+        {
+            if (SiteRows.Count(r => r.SiteName == arg.Site.SiteName) > 0)
+            {
+                SiteRows.Remove(SiteRows.First(r => r.SiteName == arg.Site.SiteName));
             }
         }
 
@@ -218,9 +245,33 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         /// </summary>
         /// <param name="sender">Вызывающий объект.</param>
         /// <param name="arg">Сайт с изменениями.</param>
-        private void model_UpdateSite(object sender, SiteEventArgs arg)
+        protected void model_UpdateSiteHandler(object sender, SiteEventArgs arg)
         {
+            if (SiteRows.Count(r => r.SiteName == arg.Site.SiteName) > 0)
+            {
+                SiteRowModel row = SiteRows.First(r => r.SiteName == arg.Site.SiteName);
 
+                row.FilePath = arg.Site.FilePath;
+                row.SiteStatus = StateToString(arg.Site.Status);
+                row.StartTime = arg.Site.StartTime != null ? arg.Site.StartTime.ToString() : string.Empty;
+            }
+        }
+
+        protected string StateToString(SiteStatus status)
+        {
+            switch (status)
+            {
+                case SiteStatus.FILE_NOT_EXISTS: return "File not found";
+                case SiteStatus.RUNNING: return "Running";
+                case SiteStatus.RUN_RUNTIME_ERROR: return "Running, error detected";
+                case SiteStatus.STOP_RUNTIME_ERROR: return "Stopped, error detected";
+                case SiteStatus.STARTING: return "Starting";
+                case SiteStatus.RUN_STARTING_ERROR: return "Starting, error detected";
+                case SiteStatus.STOP_STARTING_ERROR: return "Stopped, error while stirting";
+                case SiteStatus.STOPPED: return "Stopped";
+                case SiteStatus.UNAVAIBLE: return "Unavailable";
+                default: return "Unavailable";
+            }
         }
     }
 }

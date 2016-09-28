@@ -69,17 +69,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// <param name="filePath">Путь к файлу.</param>
         /// <param name="args">Аргументы запуска.</param>
         /// <returns>Результат выполнения.</returns>
-        public bool AddNewSite(string siteName, string filePath, List<string> args)
+        public bool AddNewSite(SiteConfiguration siteConfig)
         {
-            if (_sites.Where(s => s.SiteName == siteName).Count() == 0)
+            if (_sites.Where(s => s.SiteName.ToLower() == siteConfig.SiteName.ToLower()).Count() == 0)
             {
-                _sites.Add(
-                    new SiteConfiguration()
-                    {
-                        SiteName = siteName,
-                        ExecutableFilePath = filePath,
-                        StartArguments = args
-                    });
+                _sites.Add(siteConfig);
 
                 return true;
             }
@@ -93,9 +87,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// <returns>Результат выполнения.</returns>
         public bool RemoveSite(string siteName)
         {
-            if (_sites.Where(s => s.SiteName == siteName).Count() == 1)
+            if (_sites.Where(s => s.SiteName.ToLower() == siteName.ToLower()).Count() == 1)
             {
-                _sites.Remove(_sites.First(s => s.SiteName == siteName));
+                _sites.Remove(_sites.First(s => s.SiteName.ToLower() == siteName.ToLower()));
 
                 return true;
             }
@@ -109,14 +103,14 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// <param name="filePath">Путь к файлу.</param>
         /// <param name="args">Аргументы запуска.</param>
         /// <returns>Результат выполнения.</returns>
-        public bool UpdateSite(string siteName, string filePath, List<string> args)
+        public bool UpdateSite(SiteConfiguration siteConfig)
         {
-            if (_sites.Where(s => s.SiteName == siteName).Count() == 1)
+            if (_sites.Where(s => s.SiteName.ToLower() == siteConfig.SiteName.ToLower()).Count() == 1)
             {
-                SiteConfiguration site = _sites.First(s => s.SiteName == siteName);
+                SiteConfiguration site = _sites.First(s => s.SiteName.ToLower() == siteConfig.SiteName.ToLower());
 
-                site.ExecutableFilePath = filePath;
-                site.StartArguments = args;
+                site.ExecutableFilePath = siteConfig.ExecutableFilePath;
+                site.StartArguments = siteConfig.StartArguments;
 
                 return true;
             }

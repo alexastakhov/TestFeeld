@@ -55,7 +55,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Common
         /// <summary>
         /// Время запуска сайта.
         /// </summary>
-        public DateTime StartTime 
+        public DateTime? StartTime 
         {
             get { return _startTime; }
             set { _startTime = value; }
@@ -64,7 +64,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Common
         /// <summary>
         /// Хранит время запуска сайта.
         /// </summary>
-        protected DateTime _startTime;
+        protected DateTime? _startTime;
 
         public SiteInstance(string siteName, string filePath)
         {

@@ -24,23 +24,33 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Common
         STOPPED = 3,
 
         /// <summary>
-        /// Ошибка во время выполнения.
+        /// Ошибка во время выполнения, сайт работает.
         /// </summary>
-        RUNTIME_ERROR  = 4,
+        RUN_RUNTIME_ERROR = 4,
+
+        /// <summary>
+        /// Ошибка во время выполнения, сайт остановлен.
+        /// </summary>
+        STOP_RUNTIME_ERROR = 5,
 
         /// <summary>
         /// Сайт не отвечает по WCF.
         /// </summary>
-        UNAVAIBLE = 5,
+        UNAVAIBLE = 6,
 
         /// <summary>
         /// Исполняемый файл сайта не найден.
         /// </summary>
-        FILE_NOT_EXISTS = 6,
+        FILE_NOT_EXISTS = 7,
 
         /// <summary>
-        /// Ошибка во время запуска сайта.
+        /// Ошибка во время запуска сайта, сайт работает.
         /// </summary>
-        STARTING_ERROR = 7
+        RUN_STARTING_ERROR = 8,
+
+        /// <summary>
+        /// Ошибка во время запуска сайта, сайт отсановлен.
+        /// </summary>
+        STOP_STARTING_ERROR = 9
     }
 }

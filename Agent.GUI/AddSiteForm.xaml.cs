@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AlfaBank.AlfaRobot.ControlCenter.Common;
+using AlfaBank.AlfaRobot.ControlCenter.Configuration;
 
 namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 {
@@ -20,7 +20,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
     /// </summary>
     public partial class AddSiteForm : Window
     {
-        private SiteDescriptor _siteDescriptor;
+        private SiteConfiguration _siteConfiguration;
 
         public AddSiteForm()
         {
@@ -29,7 +29,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
-            _siteDescriptor = null;
+            _siteConfiguration = null;
             this.Close();
         }
 
@@ -69,7 +69,7 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
 
             if (isHide)
             {
-                _siteDescriptor = new SiteDescriptor()
+                _siteConfiguration = new SiteConfiguration()
                 {
                     SiteName = siteNameText.Text,
                     ExecutableFilePath = filePathText.Text,
@@ -80,10 +80,10 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
             }
         }
 
-        public SiteDescriptor ShowDialogWithResult()
+        public SiteConfiguration ShowDialogWithResult()
         {
             this.ShowDialog();
-            return _siteDescriptor;
+            return _siteConfiguration;
         }
 
         private void SetLabelToError(Label label)
