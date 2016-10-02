@@ -6,7 +6,7 @@ using AlfaBank.AlfaRobot.ControlCenter.Common;
 using AlfaBank.AlfaRobot.ControlCenter.Configuration;
 using System.Threading;
 
-namespace Agent.Logic.Tests
+namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic.Tests
 {
     [TestClass]
     public class AgentModelTests

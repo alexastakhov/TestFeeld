@@ -26,5 +26,15 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// Аргументы командной строки при запуске сайта.
         /// </summary>
         public List<string> StartArguments;
+
+        public SiteConfiguration Clone()
+        {
+            return new SiteConfiguration()
+            {
+                SiteName = this.SiteName,
+                ExecutableFilePath = this.ExecutableFilePath,
+                StartArguments = new List<string>(this.StartArguments)
+            };
+        }
     }
 }

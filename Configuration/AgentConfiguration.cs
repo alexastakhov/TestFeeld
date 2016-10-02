@@ -4,8 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
 {
@@ -19,33 +20,57 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// URI локальной службы WCF.
         /// </summary>
         [DataMember]
-        public string wcfServiceUri;
+        public string WcfServiceUri
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// URI службы WCF управляющего сервера.
         /// </summary>
         [DataMember]
-        public string wcfControlServiceUri;
+        public string WcfControlServiceUri
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Адрес управляющего сервера.
         /// </summary>
         [DataMember]
-        public string ControlServerAddress;
+        public string ControlServerAddress
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Строка доступа на управляющий сервер.
         /// </summary>
         [DataMember]
-        public string ControlServerAccessString;
+        public string ControlServerAccessString
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Список конфигураций сайтов.
         /// </summary>
         [DataMember]
         public List<SiteConfiguration> Sites
-        { 
-            get { return _sites.Select(s => s).ToList(); } 
+        {
+            get 
+            { 
+                return _sites; 
+            }
+
+            set 
+            { 
+                _sites = value; 
+            }
         }
 
         /// <summary>
@@ -53,6 +78,51 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration
         /// </summary>
         [DataMember]
         protected List<SiteConfiguration> _sites;
+
+        /// <summary>
+        /// Чтение конфигурации из файла.
+        /// </summary>
+        public static AgentConfiguration ReadConfiguration(string filePath)
+        {
+            try
+            {
+                AgentConfiguration deserializedConfig = null;
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                {
+                    XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(fileStream, new XmlDictionaryReaderQuotas());
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(AgentConfiguration));
+
+                    deserializedConfig = (AgentConfiguration)serializer.ReadObject(reader, true);
+                    reader.Close();
+                }
+
+                return deserializedConfig;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Запись конфигурацииы в файл.
+        /// </summary>
+        public static void WriteConfiguration(AgentConfiguration configuration, string filePath)
+        {
+            try
+            {
+                using (FileStream writer = new FileStream(filePath, FileMode.OpenOrCreate))
+                {
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(AgentConfiguration));
+                    serializer.WriteObject(writer, configuration);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         /// <summary>
         /// Основной конструктор.

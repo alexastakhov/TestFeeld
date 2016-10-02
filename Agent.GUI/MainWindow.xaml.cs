@@ -182,8 +182,8 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         /// <summary>
         /// Обработка нажатия кнопки добавления нового сайта.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Вызвавший объект.</param>
+        /// <param name="e">Параметры события.</param>
         private void addSiteToolButton_Click(object sender, RoutedEventArgs e)
         {
             AddSiteForm addSiteForm = new AddSiteForm();
@@ -271,6 +271,27 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
                 case SiteStatus.STOPPED: return "Stopped";
                 case SiteStatus.UNAVAIBLE: return "Unavailable";
                 default: return "Unavailable";
+            }
+        }
+
+        /// <summary>
+        /// Обработка нажатия кнопки удаления сайта.
+        /// </summary>
+        /// <param name="sender">Вызвавший объект.</param>
+        /// <param name="e">Параметры события.</param>
+        private void deleteSiteToolButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sitesDataGrid.SelectedItems.Count > 0)
+            {
+                if (MessageBox.Show(
+                    "Are you sure that you want to remove selected site settings?", 
+                    "Removing site settings", 
+                    MessageBoxButton.YesNo, 
+                    MessageBoxImage.Warning, 
+                    MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+
+                }
             }
         }
     }

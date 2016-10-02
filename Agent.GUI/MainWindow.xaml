@@ -8,7 +8,7 @@
     <Window.Resources>
         <ContextMenu x:Key="trayMenu">
             <MenuItem x:Name="showWinContextMenuItem" Header="Open Agent Window" Click="showWinContextMenuItemClick" />
-            <MenuItem x:Name="showSitePanelMenuItem" Header="Show Site-Panel" IsCheckable="True" />
+            <MenuItem x:Name="showSitePanelMenuItem" Header="Show Site-Panel" IsCheckable="True" IsEnabled="False" />
             <Separator />
             <MenuItem x:Name="exitContextMenuItem" Header="Stop" Click="stopContextMenuItemClick" />
         </ContextMenu>
@@ -21,6 +21,15 @@
             <Setter Property="Width" Value="18" />
             <Setter Property="Height" Value="18" />
         </Style>
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="GridLinesVisibility" Value="All" />
+            <Setter Property="HorizontalGridLinesBrush" Value="LightBlue" />
+            <Setter Property="VerticalGridLinesBrush" Value="LightBlue" />
+            <Setter Property="RowHeight" Value="25" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="ColumnHeaderHeight" Value="25" />
+            <Setter Property="IsReadOnly" Value="True" />
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -32,7 +41,7 @@
             <Button x:Name="addSiteToolButton" Style="{StaticResource toolBarButtonStyle}" ToolTip="Add site settings to agent" Click="addSiteToolButton_Click">
                 <Image Source="Images/ic_add_black_24dp_1x.png" Style="{StaticResource toolBarImageStyle}"/>
             </Button>
-            <Button x:Name="deleteSiteToolButton" Style="{StaticResource toolBarButtonStyle}" ToolTip="Delete site settings from agent">
+            <Button x:Name="deleteSiteToolButton" Style="{StaticResource toolBarButtonStyle}" ToolTip="Delete site settings from agent" Click="deleteSiteToolButton_Click">
                 <Image Source="Images/ic_delete_black_24dp_1x.png"  Style="{StaticResource toolBarImageStyle}" />
             </Button>
             <Separator />
@@ -58,17 +67,36 @@
                 <Image Source="Images/ic_info_outline_black_24dp_1x.png" Style="{StaticResource toolBarImageStyle}" />
             </Button>
         </ToolBar>
-        <DataGrid Name="sitesDataGrid" Grid.Row="1" ColumnHeaderHeight="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" Background="White" IsReadOnly="True">
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="Height" Value="35" />
-                </Style>
-            </DataGrid.RowStyle>
+        <DataGrid Name="sitesDataGrid" Grid.Row="1" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Site" Binding="{Binding Path=SiteName}" Width="150" />
-                <DataGridTextColumn Header="Filepath" Binding="{Binding Path=FilePath}" Width="270" />
-                <DataGridTextColumn Header="Status" Width="150" Binding="{Binding Path=SiteStatus}" />
-                <DataGridTextColumn Header="Start time" Width="*" Binding="{Binding Path=StartTime}" />
+                <DataGridTextColumn Header="Site" Binding="{Binding Path=SiteName}" Width="150">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Filepath" Binding="{Binding Path=FilePath}" Width="270">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Width="150" Binding="{Binding Path=SiteStatus}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Start time" Width="*" Binding="{Binding Path=StartTime}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <StatusBar x:Name="statusBar" Grid.Row="2" Height="25" BorderThickness="0" Margin="1,0"/>
