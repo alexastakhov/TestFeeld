@@ -8,10 +8,19 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration.Tests
     [TestClass]
     public class AgentConfigurationTests
     {
+        /// <summary>
+        /// Корректная конфигурация для тестов.
+        /// </summary>
         AgentConfiguration correctConfig;
 
+        /// <summary>
+        /// Имя файла для хранения корректной конфигурации.
+        /// </summary>
         string correctConfigFileName;
 
+        /// <summary>
+        /// Инициализация объектов для тестов.
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
@@ -52,6 +61,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration.Tests
             AgentConfiguration.WriteConfiguration(correctConfig, correctConfigFileName);
         }
 
+        /// <summary>
+        /// Очистка данных после тестов.
+        /// </summary>
         [TestCleanup]
         public void Clean()
         {
@@ -68,6 +80,9 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Configuration.Tests
             }
         }
 
+        /// <summary>
+        /// Тестирование записи-чтения корректной конфигурации.
+        /// </summary>
         [TestMethod]
         public void AgentConfigurationWriteAndReadConfiguration()
         {

@@ -26,6 +26,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         public event EventHandler<SiteEventArgs> SiteRemoved = delegate { };
 
         /// <summary>
+        /// Имя файла конфигурации Агента.
+        /// </summary>
+        public const string CONFIG_FILE_NAME = "agent.config.xml";
+
+        /// <summary>
         /// Конфигурация Агента.
         /// </summary>
         public AgentConfiguration Configuration
@@ -56,7 +61,14 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// </summary>
         public AgentModel()
         {
-            _configuration = new AgentConfiguration();
+            try
+            {
+                _configuration = AgentConfiguration.ReadConfiguration(CONFIG_FILE_NAME);
+            }
+            catch (Exception e)
+            {
+                _configuration = new AgentConfiguration();
+            }
         }
 
         /// <summary>
@@ -68,6 +80,8 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         {
             if (_configuration.AddNewSite(siteConfig))
             {
+                SaveConfiguration();
+
                 ISite siteInstance = new SiteInstance(siteConfig.SiteName, siteConfig.ExecutableFilePath);
 
                 _sites.Add(siteInstance);
@@ -92,6 +106,8 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         {
             if (_configuration.RemoveSite(siteName))
             {
+                SaveConfiguration();
+
                 ISite siteInstance = Sites.First(s => s.SiteName == siteName);
 
                 _sites.Remove(siteInstance);
@@ -116,6 +132,8 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         {
             if (_configuration.UpdateSite(siteConfig))
             {
+                SaveConfiguration();
+
                 ISite siteInstance = Sites.First(s => s.SiteName == siteConfig.SiteName);
 
                 _sites.Remove(siteInstance);
@@ -131,6 +149,18 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Сохранение конфигурации в файл.
+        /// </summary>
+        private void SaveConfiguration()
+        {
+            try
+            {
+                AgentConfiguration.WriteConfiguration(_configuration, CONFIG_FILE_NAME);
+            }
+            catch (Exception e) { }
         }
     }
 }

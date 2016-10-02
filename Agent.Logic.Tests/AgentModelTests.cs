@@ -5,6 +5,7 @@ using AlfaBank.AlfaRobot.ControlCenter.Agent.Logic;
 using AlfaBank.AlfaRobot.ControlCenter.Common;
 using AlfaBank.AlfaRobot.ControlCenter.Configuration;
 using System.Threading;
+using System.IO;
 
 namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic.Tests
 {
@@ -20,6 +21,18 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic.Tests
         /// Ожидание прихода события в миллисекундах.
         /// </summary>
         private const int WAIT_EVENT_MS = 20;
+
+        /// <summary>
+        /// Инициаизация теста.
+        /// </summary>
+        [TestInitialize]
+        public void InitTest()
+        {
+            if (File.Exists(AgentModel.CONFIG_FILE_NAME))
+            {
+                File.Delete(AgentModel.CONFIG_FILE_NAME);
+            }
+        }
 
         /// <summary>
         /// Добавляем сайт в конфигурацию.
