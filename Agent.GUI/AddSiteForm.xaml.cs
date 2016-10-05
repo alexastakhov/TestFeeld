@@ -57,23 +57,13 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
                 SetLabelToNormal(filePathLabel);
             }
 
-            if (string.IsNullOrEmpty(argumentsText.Text))
-            {
-                SetLabelToError(argumentsLabel);
-                isHide = false;
-            }
-            else
-            {
-                SetLabelToNormal(argumentsLabel);
-            }
-
             if (isHide)
             {
                 _siteConfiguration = new SiteConfiguration()
                 {
                     SiteName = siteNameText.Text,
                     ExecutableFilePath = filePathText.Text,
-                    StartArguments = argumentsText.Text.Split(' ').ToList()
+                    StartArguments = argumentsText.Text.Length > 0 ? argumentsText.Text.Split(' ').ToList() : new List<string>()
                 };
 
                 this.Close();

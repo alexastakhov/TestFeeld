@@ -23,12 +23,20 @@
         </Style>
         <Style TargetType="{x:Type DataGrid}">
             <Setter Property="GridLinesVisibility" Value="All" />
-            <Setter Property="HorizontalGridLinesBrush" Value="LightBlue" />
-            <Setter Property="VerticalGridLinesBrush" Value="LightBlue" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#FFC4E9F5" />
+            <Setter Property="VerticalGridLinesBrush" Value="#FFC4E9F5" />
             <Setter Property="RowHeight" Value="25" />
             <Setter Property="Background" Value="White" />
             <Setter Property="ColumnHeaderHeight" Value="25" />
             <Setter Property="IsReadOnly" Value="True" />
+        </Style>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFC4E9F5" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+            </Style.Resources>
         </Style>
     </Window.Resources>
     <Grid>
@@ -73,6 +81,7 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -80,6 +89,7 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -87,6 +97,7 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -94,6 +105,7 @@
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

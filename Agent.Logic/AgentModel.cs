@@ -64,6 +64,11 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
             try
             {
                 _configuration = AgentConfiguration.ReadConfiguration(CONFIG_FILE_NAME);
+
+                foreach (var site in _configuration.Sites)
+                {
+                    _sites.Add(new SiteInstance(site.SiteName, site.ExecutableFilePath));
+                }
             }
             catch (Exception e)
             {

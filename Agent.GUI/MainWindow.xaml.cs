@@ -66,12 +66,14 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         public MainWindow()
         {
             InitializeComponent();
-            sitesDataGrid.ItemsSource = SiteRows;
 
             _model = new AgentModel();
             _model.SiteUpdated += model_UpdateSiteHandler;
             _model.SiteAdded += model_AddSiteHandler;
             _model.SiteRemoved += model_RemoveSiteHandler;
+
+            SiteRows = InitSiteRows(_model.Sites);
+            sitesDataGrid.ItemsSource = SiteRows;
         }
 
         /// <summary>
@@ -290,9 +292,35 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
                     MessageBoxImage.Warning, 
                     MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-
+                    //foreach (var row in sitesDataGrid.SelectedItems)
+                    //{
+                    //    _model.RemoveSiteFromConfig(((SiteRowModel)row).SiteName);
+                    //}
                 }
             }
+        }
+
+        /// <summary>
+        /// Инициализация списка строк сайтов.
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <returns></returns>
+        private ObservableCollection<SiteRowModel> InitSiteRows(List<ISite> sites)
+        {
+            ObservableCollection<SiteRowModel> list = new ObservableCollection<SiteRowModel>();
+
+            foreach (var site in sites)
+            {
+                list.Add(new SiteRowModel()
+                {
+                    SiteName = site.SiteName,
+                    FilePath = site.FilePath,
+                    SiteStatus = StateToString(site.Status),
+                    StartTime = site.StartTime.ToString()
+                });
+            }
+
+            return list;
         }
     }
 }
