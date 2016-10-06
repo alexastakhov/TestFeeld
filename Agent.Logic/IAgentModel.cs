@@ -55,5 +55,12 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         /// <param name="descriptor">Дескриптор сайта.</param>
         /// <returns>Результат выполнения.</returns>
         bool UpdateSiteConfig(SiteConfiguration siteConfig);
+
+        /// <summary>
+        /// Запущен ли сайт.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <returns>Результат проверки.</returns>
+        bool IsSiteRunning(string siteName);
     }
 }

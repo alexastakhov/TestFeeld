@@ -157,6 +157,28 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.Logic
         }
 
         /// <summary>
+        /// Запущен ли сайт.
+        /// </summary>
+        /// <param name="siteName">Имя сайта.</param>
+        /// <returns>Результат проверки.</returns>
+        public bool IsSiteRunning(string siteName)
+        {
+            try
+            {
+                SiteStatus status = _sites.First(s => s.SiteName == siteName).Status;
+
+                if (status == SiteStatus.RUNNING || status == SiteStatus.STARTING || 
+                    status == SiteStatus.RUN_RUNTIME_ERROR || status == SiteStatus.RUN_STARTING_ERROR)
+                {
+                    return true;
+                }
+            }
+            catch (InvalidOperationException e) { }
+
+            return false;
+        }
+
+        /// <summary>
         /// Сохранение конфигурации в файл.
         /// </summary>
         private void SaveConfiguration()

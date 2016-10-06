@@ -292,10 +292,22 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
                     MessageBoxImage.Warning, 
                     MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    //foreach (var row in sitesDataGrid.SelectedItems)
-                    //{
-                    //    _model.RemoveSiteFromConfig(((SiteRowModel)row).SiteName);
-                    //}
+                    SiteRowModel[] rows = new SiteRowModel[sitesDataGrid.SelectedItems.Count];
+                    sitesDataGrid.SelectedItems.CopyTo(rows, 0);
+
+                    foreach (var row in rows)
+                    {
+                        string siteName = ((SiteRowModel)row).SiteName;
+
+                        if (!_model.IsSiteRunning(siteName))
+                        {
+                            _model.RemoveSiteFromConfig(siteName);
+                        }
+                        else
+                        {
+                            //
+                        }
+                    }
                 }
             }
         }
@@ -303,8 +315,8 @@ namespace AlfaBank.AlfaRobot.ControlCenter.Agent.GUI
         /// <summary>
         /// Инициализация списка строк сайтов.
         /// </summary>
-        /// <param name="sites"></param>
-        /// <returns></returns>
+        /// <param name="sites">Коллекция сайтов из конфигурации.</param>
+        /// <returns>Модель таблицы.</returns>
         private ObservableCollection<SiteRowModel> InitSiteRows(List<ISite> sites)
         {
             ObservableCollection<SiteRowModel> list = new ObservableCollection<SiteRowModel>();
